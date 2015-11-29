@@ -9,3 +9,11 @@ Run the `fhack.py` script and it will ask for the list of words. Then it will su
 ```shell
 python fhack.py
 ```
+
+## Testing
+
+You can test the script by running hte `test.py` script which will read the `tests.txt` file and try to guess a random target word by process of elimination.
+
+```shell
+python test.py
+```
