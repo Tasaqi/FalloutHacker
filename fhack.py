@@ -39,7 +39,9 @@ class FalloutHacker:
 				similarity = 0
 				for attempted in self.attempted_words:
 					likeness = self.compareLikeness(word, attempted[0])
-					if likeness >= attempted[1]:
+					if likeness > 0 and attempted[1] == 0:
+						similarity -= 1
+					elif likeness >= attempted[1]:
 						similarity += 1
 				suggestions.append((word, similarity))
 
