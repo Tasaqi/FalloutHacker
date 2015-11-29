@@ -8,7 +8,7 @@ class FalloutHacker:
 		self.all_words = map(lambda x: x.upper(), filter(lambda x: x, words))
 		self.reset()
 
-	def compare_likeness(self, word, other):
+	def compareLikeness(self, word, other):
 		"""Compare the likeness of two words"""
 		likeness = 0
 		for i in range(0, len(word)):
@@ -16,12 +16,12 @@ class FalloutHacker:
 				likeness += 1
 		return likeness
 
-	def eliminate_word(self, word, likeness):
+	def eliminateWord(self, word, likeness):
 		"""Eliminate a word from the list of possible words"""
 		self.possible_words.remove(word)
 		self.attempted_words.append((word, likeness))
 
-	def has_words(self):
+	def hasWords(self):
 		"""Checks if the hacker has possible words"""
 		return len(self.possible_words) != 0
 
@@ -30,14 +30,14 @@ class FalloutHacker:
 		self.possible_words = list(self.all_words)
 		self.attempted_words = list()
 
-	def suggest_word(self):
+	def suggestWord(self):
 		"""Suggest one of the words from the list of possible words"""
 		if len(self.attempted_words) != 0:
 			like_words = list()
 			for word in self.possible_words:
 				likeness = 0
 				for attempted in self.attempted_words:
-					likeness += self.compare_likeness(word, attempted[0])
+					likeness += self.compareLikeness(word, attempted[0])
 				like_words.append((word, likeness))
 			like_words = sorted(like_words, key=lambda x: x[1], reverse=True)
 			return like_words[0][0]
@@ -53,12 +53,12 @@ if __name__ == "__main__":
 	hacker = FalloutHacker(words.split(" "))
 
 	print "Enter the likeness value for the chosen words (leave empty to quit)"
-	while hacker.has_words():
-		choice = hacker.suggest_word()
+	while hacker.hasWords():
+		choice = hacker.suggestWord()
 		likeness = raw_input(choice + ": ")
 
 		if likeness == "":
 			break # lol we done
 
 		likeness = int(likeness)
-		hacker.eliminate_word(choice, likeness)
+		hacker.eliminateWord(choice, likeness)
