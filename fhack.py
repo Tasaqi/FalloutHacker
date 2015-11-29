@@ -32,17 +32,23 @@ class FalloutHacker:
 
 	def suggestWord(self):
 		"""Suggest one of the words from the list of possible words"""
+		suggestions = list()
+
 		if len(self.attempted_words) != 0:
-			like_words = list()
 			for word in self.possible_words:
-				likeness = 0
+				similarity = 0
 				for attempted in self.attempted_words:
-					likeness += self.compareLikeness(word, attempted[0])
-				like_words.append((word, likeness))
-			like_words = sorted(like_words, key=lambda x: x[1], reverse=True)
-			return like_words[0][0]
+					likeness = self.compareLikeness(word, attempted[0])
+					if likeness >= attempted[1]:
+						similarity += 1
+				suggestions.append((word, similarity))
+
+		if len(suggestions) != 0:
+			suggestions = sorted(suggestions, key=lambda x: x[1], reverse=True)
+			return suggestions[0][0]
 		else:
 			return random.choice(self.possible_words)
+
 
 # Running the script directly
 
