@@ -10,6 +10,12 @@ Run the `fhack.py` script and it will ask for the list of words. Then it will su
 python fhack.py
 ```
 
+You can also specify the words as parameters when running the script:
+
+```shell
+python fhack.py test ones twos thrs
+```
+
 ## Testing
 
 You can test the script by running hte `test.py` script which will read the `tests.txt` file and try to guess a random target word by process of elimination.

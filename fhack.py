@@ -1,4 +1,5 @@
 import random
+import sys
 
 class FalloutHacker:
 	"""Hacker for the terminals in Fallout"""
@@ -55,10 +56,13 @@ class FalloutHacker:
 # Running the script directly
 
 if __name__ == "__main__":
-	print "Enter all the available words, separated by a spaces:"
-	words = raw_input()
+	if len(sys.argv) > 1:
+		words = sys.argv[1:]
+	else:
+		print "Enter all the available words, separated by a spaces:"
+		words = raw_input().split(" ")
 
-	hacker = FalloutHacker(words.split(" "))
+	hacker = FalloutHacker(words)
 
 	print "Enter the likeness value for the chosen words (leave empty to quit)"
 	while hacker.hasWords():
