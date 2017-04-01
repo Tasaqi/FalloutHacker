@@ -7,9 +7,10 @@ class FalloutHacker:
   def __init__(self, words):
     """Creates the hacker with a specified list of words."""
     self.all_words = map(lambda x: x.upper(), filter(lambda x: x, words))
+    self.current_word = None
     self.reset()
 
-  def compare_likeness(self, word, other):
+  def compare(self, word, other):
     """Compare the likeness of two words"""
     likeness = 0
     for i in range(0, len(word)):
@@ -26,6 +27,12 @@ class FalloutHacker:
     """Checks if the hacker has possible words"""
     return len(self.possible_words) != 0
 
+  def next(self, likeness=None):
+    """Gets the next word (or None) if there are no more words"""
+    if likeness != None and self.current_word != None:
+      self.eliminate_word(self.current_word, likeness)
+    return self.suggest_word() if self.has_words() else None
+
   def reset(self):
     """Resets the hack, allowing you to try again (if the input was wrong or anything)"""
     self.possible_words = list(self.all_words)
@@ -39,18 +46,22 @@ class FalloutHacker:
       for word in self.possible_words:
         similarity = 0
         for attempted in self.attempted_words:
-          likeness = self.compare_likeness(word, attempted[0])
+          likeness = self.compare(word, attempted[0])
           if likeness > 0 and attempted[1] == 0:
             similarity -= 1
           elif likeness >= attempted[1]:
             similarity += 1
         suggestions.append((word, similarity))
 
+    suggestion = None
     if len(suggestions) != 0:
       suggestions = sorted(suggestions, key=lambda x: x[1], reverse=True)
-      return suggestions[0][0]
+      suggestion = suggestions[0][0]
     else:
-      return random.choice(self.possible_words)
+      suggestion = random.choice(self.possible_words)
+
+    self.current_word = suggestion
+    return suggestion
 
 
 # Running the script directly

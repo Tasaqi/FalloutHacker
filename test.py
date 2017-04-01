@@ -27,6 +27,15 @@ class TestFalloutHacker(unittest.TestCase):
     word = hack.suggest_word()
     self.assertEqual(word, "HAT")
 
+  def test_next(self):
+    hack = fhack.FalloutHacker(["cat", "hat", "fat"])
+    for i in range(3):
+      word = hack.next()
+      self.assertIn(word, ["CAT", "HAT", "FAT"])
+      hack.next(2)
+    word = hack.next()
+    self.assertIsNone(word)
+
   def test_has_words(self):
     hack = fhack.FalloutHacker(["TEST"])
     self.assertTrue(hack.has_words())

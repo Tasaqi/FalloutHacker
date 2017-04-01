@@ -32,15 +32,25 @@ words = ["test", "ones", "twos", "thrs"]
 hacker = fhack.FalloutHacker(words)
 ```
 
-The main methods to use are `suggestWord` and `eliminateWord` which give you a suggestion to try and eliminate that word from the possible suggestions respectively.
+The main methods to use are `suggest_word` and `eliminate_word` which give you a suggestion to try and eliminate that word from the possible suggestions respectively.
 
 ```python
-word = hacker.suggestWord()
+word = hacker.suggest_word()
 likeness = input("What is the likeness of the word: " + word + "? ")
-hacker.eliminateWord(word, likeness)
+hacker.eliminate_word(word, likeness)
 ```
 
 Eliminating words (and specifying the likeness) will improve your chances to get the correct word on the next suggestion.
+
+Another, simpler, way to use the class is the `next` method, which combines getting the next word and eliminating words in one go.
+
+```python
+word = hacker.next() # Just get a word without eliminating anything
+word = hacker.next(2) # Eliminate the previous word with a likeness of 2
+if word != None: # The word will be None if there are no words left
+```
+
+You can use `has_words` to check if there are any suggestions left and `reset` to remove all eliminations and return to the initial state.
 
 ## Testing
 
