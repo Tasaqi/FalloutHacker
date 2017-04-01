@@ -1,34 +1,43 @@
+import unittest
 import fhack
-import random
 
-def compareLikeness(word, other):
-	likeness = 0
+class TestFalloutHacker(unittest.TestCase):
+  def compare(self, word, other):
+    likeness = 0
+    for i in range(0, len(word)):
+      if word[i] == other[i]:
+        likeness += 1
+    return likeness
 
-	for i in range(0, len(word)):
-		if word[i] == other[i]:
-			likeness += 1
+  def test_single_word(self):
+    hack = fhack.FalloutHacker(["Test"])
+    word = hack.suggestWord()
+    self.assertEqual(word, "TEST")
 
-	return likeness
+  def test_multiple_words(self):
+    hack = fhack.FalloutHacker(["TEST", "again"])
+    word = hack.suggestWord()
+    self.assertIn(word, ["TEST", "AGAIN"])
+
+  def test_suggest_simple_word(self):
+    hack = fhack.FalloutHacker(["cat", "fat", "hat"])
+    target = "CAT"
+    word = ""
+    while word != target and hack.hasWords():
+      word = hack.suggestWord()
+      if word != target:
+        hack.eliminateWord(word, 2)
+    self.assertEqual(word, target)
+
+  def test_suggest_complex_word(self):
+    hack = fhack.FalloutHacker(["dancing", "talking", "walking", "command", "pattern", "history", "milling", "torture", "warrior", "sealant", "tyranny", "cousins"])
+    target = "WARRIOR"
+    word = ""
+    while word != target and hack.hasWords():
+      word = hack.suggestWord()
+      if word != target:
+        hack.eliminateWord(word, self.compare(word, target))
+    self.assertEqual(word, target)
 
 if __name__ == "__main__":
-	txt = open("tests.txt")
-	lines = txt.readlines()
-
-	for line in lines:
-		words = line.strip().split(" ")
-		target = random.choice(words).upper()
-
-		hack = fhack.FalloutHacker(words)
-		tries = 0
-		word = ""
-
-		while word != target and hack.hasWords():
-			word = hack.suggestWord()
-			tries += 1
-			likeness = compareLikeness(target, word)
-			hack.eliminateWord(word, likeness)
-
-		if word == target:
-			print "Guessed " + target + " after " + str(tries) + " attempts"
-		else:
-			print "Unable to find " + target
+    unittest.main()
