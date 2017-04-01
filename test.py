@@ -9,27 +9,49 @@ class TestFalloutHacker(unittest.TestCase):
         likeness += 1
     return likeness
 
-  def test_single_word(self):
+  def test_compare(self):
+    hack = fhack.FalloutHacker(["TEST"])
+    self.assertEqual(hack.compare("TEST", "TEST"), 4)
+    self.assertEqual(hack.compare("TEST", "BEST"), 3)
+    self.assertEqual(hack.compare("TEST", "NONE"), 0)
+
+  def test_eliminate_word(self):
+    hack = fhack.FalloutHacker(["TEST"])
+    self.assertTrue(hack.has_words())
+    hack.eliminate_word("TEST", 2)
+    self.assertFalse(hack.has_words())
+
+  def test_eliminate_word_two_words(self):
+    hack = fhack.FalloutHacker(["cat", "hat"])
+    hack.eliminate_word("CAT", 2)
+    word = hack.suggest_word()
+    self.assertEqual(word, "HAT")
+
+  def test_has_words(self):
+    hack = fhack.FalloutHacker(["TEST"])
+    self.assertTrue(hack.has_words())
+    hack.eliminate_word("TEST", 2)
+    self.assertFalse(hack.has_words())
+
+  def test_reset(self):
+    hack = fhack.FalloutHacker(["TEST"])
+    self.assertTrue(hack.has_words())
+    hack.eliminate_word("TEST", 2)
+    self.assertFalse(hack.has_words())
+    hack.reset()
+    self.assertTrue(hack.has_words())
+
+  def test_suggest_word_single_word(self):
     hack = fhack.FalloutHacker(["Test"])
     word = hack.suggest_word()
     self.assertEqual(word, "TEST")
 
-  def test_multiple_words(self):
+  def test_suggest_word_multiple_words(self):
     hack = fhack.FalloutHacker(["TEST", "again"])
     word = hack.suggest_word()
     self.assertIn(word, ["TEST", "AGAIN"])
 
-  def test_suggest_simple_word(self):
-    hack = fhack.FalloutHacker(["cat", "fat", "hat"])
-    target = "CAT"
-    word = ""
-    while word != target and hack.has_words():
-      word = hack.suggest_word()
-      if word != target:
-        hack.eliminate_word(word, 2)
-    self.assertEqual(word, target)
-
-  def test_suggest_complex_word(self):
+  def test_hack(self):
     hack = fhack.FalloutHacker([
         "dancing", "talking", "walking", "command", "pattern", "history",
         "milling", "torture", "warrior", "sealant", "tyranny", "cousins"
