@@ -25,11 +25,11 @@ python fhack.py test ones twos thrs
 If you import the `fhack` module you can use the `FalloutHacker` class directly.
 
 ```python
-import fhack
+from fhack import FalloutHacker
 
 words = ["test", "ones", "twos", "thrs"]
 
-hacker = fhack.FalloutHacker(words)
+hacker = FalloutHacker(words)
 ```
 
 The main methods to use are `suggest_word` and `eliminate_word` which give you a suggestion to try and eliminate that word from the possible suggestions respectively.
@@ -54,7 +54,7 @@ You can use `has_words` to check if there are any suggestions left and `reset` t
 
 ## Testing
 
-You can test the script by running the `test.py` script which will read the `tests.txt` file and try to guess a random target word by process of elimination.
+You can test the script by running the `test.py` script.
 
 ```shell
 python test.py
