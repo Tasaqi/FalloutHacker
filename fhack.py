@@ -70,15 +70,15 @@ def main():
   if len(sys.argv) > 1:
     words = sys.argv[1:]
   else:
-    print "Enter all the available words, separated by a spaces:"
-    words = raw_input().split(" ")
+    print("Enter all the available words, separated by a spaces:")
+    words = input().split(" ")
 
   hacker = FalloutHacker(words)
 
-  print "Enter the likeness value for the chosen words (leave empty to quit)"
+  print("Enter the likeness value for the chosen words (leave empty to quit)")
   while hacker.has_words():
     choice = hacker.suggest_word()
-    likeness = raw_input(choice + ": ")
+    likeness = input(choice + ": ")
 
     if likeness == "":
       break # lol we done

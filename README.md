@@ -4,6 +4,10 @@ Python script helping you to hack the terminals in Fallout 4.
 
 ![Screenshot](https://raw.githubusercontent.com/michaelenger/FalloutHacker/master/screenshot.png)
 
+## Requirements
+
+* [Python 3](https://www.python.org)
+
 ## Usage
 
 ### As a standalone script
