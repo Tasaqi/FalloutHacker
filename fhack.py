@@ -6,7 +6,7 @@ class FalloutHacker:
 
   def __init__(self, words):
     """Creates the hacker with a specified list of words."""
-    self.all_words = map(lambda x: x.upper(), filter(lambda x: x, words))
+    self.all_words = list(map(lambda x: x.upper(), filter(lambda x: x, words)))
     self.current_word = None
     self.reset()
 
@@ -35,7 +35,7 @@ class FalloutHacker:
 
   def reset(self):
     """Resets the hack, allowing you to try again (if the input was wrong or anything)"""
-    self.possible_words = list(self.all_words)
+    self.possible_words = self.all_words.copy()
     self.attempted_words = list()
 
   def suggest_word(self):
