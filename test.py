@@ -1,8 +1,9 @@
 import unittest
 from fhack import FalloutHacker, compare_words
 
+
 class TestFalloutHacker(unittest.TestCase):
-    def compare(self, word, other):
+    def compare(self, word: str, other: str) -> int:
         likeness = 0
         for i, letter in enumerate(word):
             if letter == other[i]:
@@ -71,6 +72,7 @@ class TestFalloutHacker(unittest.TestCase):
             if word != target:
                 hack.eliminate_word(word, self.compare(word, target))
         self.assertEqual(word, target)
+
 
 if __name__ == "__main__":
     unittest.main()

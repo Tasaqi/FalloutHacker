@@ -2,8 +2,10 @@
 
 import random
 import sys
+from typing import List
 
-def compare_words(word, other):
+
+def compare_words(word: str, other: str) -> int:
     """Compare the likeness of two words"""
     likeness = 0
     for i, letter in enumerate(word):
@@ -11,32 +13,38 @@ def compare_words(word, other):
             likeness += 1
     return likeness
 
+
 class FalloutHacker:
     """Hacker for the terminals in Fallout"""
 
-    def __init__(self, words):
+    def __init__(self, words: List[str]) -> None:
         """Creates the hacker with a specified list of words."""
-        self.all_words = list(map(lambda x: x.upper(), filter(lambda x: x, words)))
+        self.all_words = list(map(
+            lambda x: x.upper(), filter(lambda x: x, words)
+        ))
         self.current_word = None
         self.reset()
 
-    def eliminate_word(self, word, likeness):
+    def eliminate_word(self, word: str, likeness: int):
         """Eliminate a word from the list of possible words"""
         self.possible_words.remove(word)
         self.attempted_words.append((word, likeness))
 
-    def has_words(self):
+    def has_words(self) -> bool:
         """Checks if the hacker has possible words"""
         return len(self.possible_words) != 0
 
-    def next(self, likeness=None):
+    def next(self, likeness: int = None):
         """Gets the next word (or None) if there are no more words"""
         if likeness is not None and self.current_word is not None:
             self.eliminate_word(self.current_word, likeness)
         return self.suggest_word() if self.has_words() else None
 
     def reset(self):
-        """Resets the hack, allowing you to try again (if the input was wrong or anything)"""
+        """
+        Resets the hack, allowing you to try again
+        (if the input was wrong or anything)
+        """
         self.possible_words = self.all_words.copy()
         self.attempted_words = list()
 
@@ -79,16 +87,19 @@ def main():
 
     hacker = FalloutHacker(words)
 
-    print("Enter the likeness value for the chosen words (leave empty to quit)")
+    print(
+        "Enter the likeness value for the chosen words (leave empty to quit)"
+    )
     while hacker.has_words():
         choice = hacker.suggest_word()
         likeness = input(choice + ": ")
 
         if likeness == "":
-            break # lol we done
+            break  # lol we done
 
         likeness = int(likeness)
         hacker.eliminate_word(choice, likeness)
+
 
 if __name__ == "__main__":
     main()
